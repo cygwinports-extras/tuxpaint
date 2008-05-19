@@ -1,0 +1,8 @@
+category: Graphics
+requires: cygwin glib2 libSDL12 libSDL_Pango libSDL_image libSDL_mixer libSDL_ttf libcairo2 libfltk11 libintl8 libpaper1 libpng12 librsvg2
+sdesc: "Drawing program for children"
+ldesc: "Tux Paint is a free, award-winning drawing program for children 
+ages 3 to 12 (for example, preschool and K-6 in the US, key stages 1 & 2 
+in the UK). It combines an easy-to-use interface, fun sound effects, and 
+an encouraging cartoon mascot who guides children as they use the 
+program."
