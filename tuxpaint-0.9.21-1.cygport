@@ -1,0 +1,37 @@
+DESCRIPTION="Drawing program for children"
+HOMEPAGE="http://www.tuxpaint.org/"
+SRC_URI="mirror://sourceforge/tuxpaint/${P}.tar.gz"
+PATCH_URI="0.9.21-exeext.patch"
+
+PKG_NAMES="${PN} ${PN}-devel"
+PKG_HINTS="setup devel"
+tuxpaint_CONTENTS="--exclude=tp-magic-config* etc/ usr/bin/ usr/lib/ usr/share/"
+tuxpaint_devel_CONTENTS="usr/bin/tp-magic-config usr/include/ usr/share/man/man1/tp-magic-config.*"
+
+RESTRICT="postinst-doc"
+
+src_compile() {
+	lndirs
+	cd ${B}
+	cygmake -j1 \
+		PREFIX=/usr \
+		EXE_EXT=.exe \
+		SO_TYPE=dll \
+		OPTFLAGS="${CFLAGS}" \
+		ARCH_LINKS="-lintl -lpng12" \
+		PLUGIN_LIBS="-lSDL_image -lSDL_mixer -lSDL_ttf -lSDL -lintl -lpng12" \
+		SDL_LIBS="-lSDL_image -lSDL_mixer -lSDL_ttf -lSDL_Pango -lgobject-2.0 -lSDL -lpaper -lfribidi" \
+		SHARED_FLAGS="-shared"
+}
+
+src_install() {
+	cd ${B}
+	cyginstall -j1 \
+		PKG_ROOT=${D} \
+		PREFIX=/usr \
+		EXE_EXT=.exe \
+		SO_TYPE=dll \
+		GNOME_PREFIX=/usr/ \
+		KDE_ICON_PREFIX=/usr/share/icons/ \
+		X11_ICON_PREFIX=/usr/share/pixmaps/
+}
