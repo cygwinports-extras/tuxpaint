@@ -18,8 +18,8 @@ src_compile() {
 		EXE_EXT=.exe \
 		SO_TYPE=dll \
 		OPTFLAGS="${CFLAGS}" \
-		ARCH_LINKS="-lintl -lpng12" \
-		PLUGIN_LIBS="-lSDL_image -lSDL_mixer -lSDL_ttf -lSDL -lintl -lpng12" \
+		ARCH_LINKS="-lintl -lpng" \
+		PLUGIN_LIBS="-lSDL_image -lSDL_mixer -lSDL_ttf -lSDL -lintl -lpng" \
 		SDL_LIBS="-lSDL_image -lSDL_mixer -lSDL_ttf -lSDL_Pango -lgobject-2.0 -lSDL -lpaper -lfribidi" \
 		SHARED_FLAGS="-shared"
 }
