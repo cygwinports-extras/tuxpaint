@@ -1,0 +1,56 @@
+inherit python
+
+NAME="tuxpaint"
+VERSION=0.9.21
+RELEASE=3
+CATEGORY="Graphics"
+SUMMARY="Drawing program for children"
+DESCRIPTION="Tux Paint is a free, award-winning drawing program for children
+ages 3 to 12 (for example, preschool and K-6 in the US, key stages 1 & 2  in
+the UK). It combines an easy-to-use interface, fun sound effects, and an
+encouraging cartoon mascot who guides children as they use the program."
+HOMEPAGE="http://www.tuxpaint.org/"
+SRC_URI="mirror://sourceforge/tuxpaint/${P}.tar.gz"
+
+PATCH_URI="
+	http://pkgs.fedoraproject.org/cgit/tuxpaint.git/plain/tuxpaint-utf8.patch
+	http://pkgs.fedoraproject.org/cgit/tuxpaint.git/plain/tuxpaint-0.9.21-fix-desktop-file.patch
+	http://pkgs.fedoraproject.org/cgit/tuxpaint.git/plain/tuxpaint-0.9.21-makej.patch
+	http://pkgs.fedoraproject.org/cgit/tuxpaint.git/plain/tuxpaint-0.9.21-memset.patch
+	http://pkgs.fedoraproject.org/cgit/tuxpaint.git/plain/tuxpaint-0.9.21-png15.patch
+	0.9.21-exeext.patch
+"
+
+PKG_NAMES="${PN} ${PN}-devel"
+tuxpaint_CONTENTS="--exclude=tp-magic-config* etc/ usr/bin/ usr/lib/ usr/share/"
+tuxpaint_devel_SUMMARY="${SUMMARY} (plugin development)"
+tuxpaint_devel_REQUIRES="gettext libSDL-devel libSDL_mixer-devel"
+tuxpaint_devel_CONTENTS="usr/bin/tp-magic-config usr/include/ usr/share/man/man1/tp-magic-config.*"
+
+RESTRICT="postinst-doc"
+
+src_compile() {
+	lndirs
+	cd ${B}
+	cygmake -j1 \
+		PREFIX=/usr \
+		EXE_EXT=.exe \
+		SO_TYPE=dll \
+		OPTFLAGS="${CFLAGS}" \
+		ARCH_LINKS="-lintl -lpng" \
+		PLUGIN_LIBS="-lSDL_image -lSDL_mixer -lSDL_ttf -lSDL -lintl -lpng" \
+		SDL_LIBS="-lSDL_image -lSDL_mixer -lSDL_ttf -lSDL_Pango -lgobject-2.0 -lSDL -lpaper -lfribidi" \
+		SHARED_FLAGS="-shared"
+}
+
+src_install() {
+	cd ${B}
+	cyginstall -j1 \
+		PKG_ROOT=${D} \
+		PREFIX=/usr \
+		EXE_EXT=.exe \
+		SO_TYPE=dll \
+		GNOME_PREFIX=/usr/ \
+		KDE_ICON_PREFIX=/usr/share/icons/ \
+		X11_ICON_PREFIX=/usr/share/pixmaps/
+}
