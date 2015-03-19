@@ -2,7 +2,7 @@ inherit python
 
 NAME="tuxpaint"
 VERSION=0.9.21
-RELEASE=3
+RELEASE=4
 CATEGORY="Graphics"
 SUMMARY="Drawing program for children"
 DESCRIPTION="Tux Paint is a free, award-winning drawing program for children
